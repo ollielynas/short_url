@@ -1,12 +1,48 @@
 <!DOCTYPE html><html><head>
     <meta charset="utf-8">
     <title>Url thing</title>
+    <link rel="icon" href="./link.png">
+    <style>
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+div {
+  height: 85vh;
+}
+
+textarea {
+  width: 50vw;
+  height: 5vh;
+  font-size: 2vh;
+  margin: 1vh;
+  padding: 1vh;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-shadow: 0 0 2px #ccc;
+}
+
+p {
+  max-width: 50vw;
+  word-wrap: anywhere;
+}
+
+    </style>
   
-<link rel="preload" href="/short_url-ad6acfabb5cae3b5_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
-<link rel="modulepreload" href="/short_url-ad6acfabb5cae3b5.js"></head>
+<link rel="preload" href="./short_url-df2fd6ce13730f3a_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
+<link rel="modulepreload" href="./short_url-df2fd6ce13730f3a.js"></head>
   <body>
 
-<script type="module">import init from '/short_url-ad6acfabb5cae3b5.js';init('/short_url-ad6acfabb5cae3b5_bg.wasm');</script><script>(function () {
+<script type="module">import init from './short_url-df2fd6ce13730f3a.js';init('/short_url-df2fd6ce13730f3a_bg.wasm');</script><script>(function () {
     var protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     var url = protocol + '//' + window.location.host + '/_trunk/ws';
     var poll_interval = 5000;

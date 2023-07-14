@@ -2,25 +2,28 @@ use crate::{VALID_URL_LETTERS};
 use smaz::compress;
 use num_bigint::BigUint;
 
-
 pub fn smaz_compress(url: &str) -> String {
     let compressed = compress(&url.as_bytes());
-    let mut num = BigUint::new(vec![0]);
-    for i in 0..compressed.len() {
-        num += (compressed[i] as u64) << (i * 8);
-    }
-
-
+    let num: BigUint = BigUint::from_bytes_be(&compressed);
     let base = VALID_URL_LETTERS.len();
-    let mut digits = Vec::new();
-    while num > BigUint::new(vec![0]) {
-        digits.push(num % base);
-        num /= base;
-    }
+    
+    let arr = num.to_radix_be(base as u32);
 
-    return digits.iter().map(|x| VALID_URL_LETTERS.chars().nth(*x as usize).unwrap()).collect::<String>();
+    let result = arr.iter().map(|x| VALID_URL_LETTERS.chars().nth(*x as usize).unwrap()).collect::<String>();
+
+    return result;
+    
+
 }
 
-pub fn smaz_decompress(url: &str) -> String {
-    return std::str::from_utf8(&smaz::decompress(&valid_url_to_bin(url)).unwrap()).unwrap().to_string();
+pub fn smaz_decompress(url: &str) -> Option<String> {
+    let chars = url.chars().collect::<Vec<char>>();
+    let base = VALID_URL_LETTERS.len();
+    let num = BigUint::from_radix_be(&chars.iter().map(|x| VALID_URL_LETTERS.chars().position(|r| r == *x).expect(&format!("invalid character {}", x)) as u8).collect::<Vec<u8>>().as_slice(), base as u32).expect("invalid base");
+    let mut bytes = num.to_bytes_be();
+    let string = smaz::decompress(&bytes);
+    return match string {
+        Ok(string) => Some(String::from_utf8(string).unwrap()),
+        Err(_) => None,
+    }
 }

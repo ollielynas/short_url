@@ -25,7 +25,7 @@ impl Compression {
     fn compress(&self, url: &str) -> String {
         match self {
             Compression::None => url.to_string(),
-            Compression::Smaz => 
+            Compression::Smaz => smaz_compress(url),
 
         }
     }
@@ -33,7 +33,7 @@ impl Compression {
     fn decompress(&self, url: &str) -> Option<String> {
         match self {
             Compression::None => Some(url.to_string()),
-            Compression::Smaz => 
+            Compression::Smaz => smaz_decompress(url),
         }
     }
 }
@@ -55,15 +55,18 @@ impl Url {
     pub fn from_compressed_url(compressed_url: &str) -> Option<Url> {
         let chars = VALID_URL_LETTERS.chars().collect::<Vec<char>>();
         // remove first letter of string
+        if compressed_url.len() < 1 {
+            return None;
+        }
         let mut url = compressed_url.to_string();
         let compression_type = url.remove(0);
         let mut methods = Compression::iter();
         let compression_index = chars.iter().position(|&r| r == compression_type).unwrap_or(0);
         
         if let Some(compression) = methods.nth(compression_index) {
-            if let Some(url) = compression.decompress(&url) {
+            if let Some(decompressed) = compression.decompress(&url) {
                 return Some(Url {
-                    url,
+                    url:decompressed,
                     compressed_url: compressed_url.to_owned(),
                 });
             }else {
