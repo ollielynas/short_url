@@ -6,6 +6,8 @@ use num_bigint::BigUint;
 mod compress;
 use compress::Url;
 mod smaz_cmp;
+mod yt;
+
 
 pub const VALID_URL_LETTERS: &'static str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_~[]@!$()*,;";
 

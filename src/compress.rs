@@ -6,6 +6,8 @@ use strum_macros::EnumIter;
 use crate::VALID_URL_LETTERS;
 use crate::smaz_cmp::smaz_compress;
 use crate::smaz_cmp::smaz_decompress;
+use crate::yt::{yt_compress, yt_decompress};
+
 
 pub struct Url {
     pub url: String,
@@ -18,7 +20,8 @@ pub struct Url {
 #[derive(EnumIter)]
 enum Compression {
     None,
-    Smaz
+    Smaz,
+    YouTube
 }
 
 impl Compression {
@@ -26,6 +29,7 @@ impl Compression {
         match self {
             Compression::None => url.to_string(),
             Compression::Smaz => smaz_compress(url),
+            Compression::YouTube => yt_compress(url),
 
         }
     }
@@ -34,6 +38,7 @@ impl Compression {
         match self {
             Compression::None => Some(url.to_string()),
             Compression::Smaz => smaz_decompress(url),
+            Compression::YouTube => yt_decompress(url),
         }
     }
 }
